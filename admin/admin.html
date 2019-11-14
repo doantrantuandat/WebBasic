@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Page</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css' />
+	<link rel='stylesheet prefetch' href="css/jquery.toastmessage.css" />
+      <link rel="stylesheet" href="css/style.css" />
+      <script src="js/jquery-3.2.1.min.js"></script>
+      <script src="js/admin.js"></script>
+      <script src="js/jquery.toastmessage.js"></script>
+      <script src="js/jquery.validate.js"> </script>
+      
+      <style>
+        .container {
+        margin-top: 20px;
+        }
+
+        .panel-heading {
+          font-size: small;
+        }
+
+        .alert {
+            
+        display: none;
+        }
+
+
+        .error {
+
+            color: #e74c3c;
+            font-size: small;
+            
+        }
+    </style>
+  <script>
+        $(document).ready(function(){
+            $.validator.addMethod(
+                    "regex",
+                    function(value, element, regexp) {
+                        var re = new RegExp(regexp);
+                        return this.optional(element) || re.test(value);
+                    },
+                    "Please check your input."
+            );
+         $("form[name='form']").validate({
+            rules: {
+                
+                name: {
+                    required:true,
+                    regex: "^[a-zA-Z'.\\s]{5,15}$"
+                },
+                price: {
+                    required:true,
+                    regex: "^[0-9]+$"
+                },
+                img :{
+                    regex:"^\w+\.(?i)(ico|jpg|png|bif|bmp)$"
+                }
+
+            },
+          
+            messages: {
+                name:{
+                    required: "Bắt buộc nhập tên sản phẩm",
+                    regex:"Tên sản phẩm phải là chữ chứa ít nhất từ 5-15 ký tự"
+                },
+                 price: {
+                      required: "Bắt buộc nhập đơn giá",
+                        regex:"Đơn giá phải là số"
+                 },
+                 img:{
+                     regex:"Không đúng định dạng file hình"
+                 }
+            },
+            submitHandler: function(form) {
+               
+                form.submit();
+            }
+        });
+
+        });
+    </script>
+
+</head>
+
+<body>
+  <div class="container">
+<div class="sideArea">
+    <div class="avatar">
+        <img src="images/user.jpg" alt="">
+        <div class="avatarName">Trang Admin<br></div>
+    </div>
+    <ul class="sideMenu">
+        <li><a href=""><span class="fa fa-plane"></span>Quản lý mặt hàng</a></li>
+    </ul>
+</div>
+
+<div class="mainArea">
+
+    <nav class="navTop row">
+
+        <div class="account fr">
+            <div class="name has-submenu">Admin<span class="fa fa-angle-down"></span></div>
+            <ul class="accountLinks submenu">
+                <li><a href="../site/trangchu.html">Xem trang chủ</a></li>
+                <li><a href="../site/trangchu.html">Log out<span class="fa fa-sign-out fr"></span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="mainContent">  
+<div class="row filterGroup">
+    <form action="" method="POST" class="formSearch fl">
+        <input type="text" class="inputSearch" placeholder="Search">
+        <button type="submit" class="btnSearch"><i class="fa fa-search"></i></button>
+    </form>
+
+</div>
+
+
+<!-- DETAIL FORM -->
+<form name="form" action="" method="POST" enctype="multipart/form-data" class="form">
+    <div class="formHeader row">
+        <h2 class="text-1 fl">THÊM SẢN PHẨM MỚI</h2>
+
+    </div>
+    <div class="formBody row">
+        <div class="column s-6">
+            <label class="inputGroup">
+                <span>Tên sản phẩm</span>
+                <span><input type="text" name="name" id="productname-new"></span>
+            </label>
+
+            <label class="inputGroup">
+                <span>Giá</span>
+                <span><input type="text" name="price" id="price-new"></span>
+            </label>
+            
+        </div>
+        <div class="column s-6">
+            
+          
+            <label class="inputGroup">
+                <span>Hình</span>
+                <input type="hidden" name="img" value="src">
+                <span>
+                    <input id="fileImg" type="file" name="img" onchange="getImg(this)" />
+                    <img src="../hinh/SanPham/Ao/Ao1/1.jpg" alt="" width="50px">
+                </span>
+                
+            </label>
+            
+        </div>
+      <div class="column">
+          <label class="inputGroup">
+              <span>Mô tả</span>
+              <textarea name="description" id="desc-new"></textarea>
+          </label>
+      </div>
+      <button style="float:left; width:100%;" id="btnSubmit" type="button" class="btnSave bg-1 text-fff text-bold fr">SAVE</button>
+    </div>
+</form> 
+
+<!-- <form action="#" method="GET" name="listForm" class="form scrollX" style="margin-top:50px;"> -->
+    <div class="formHeader row">
+        <h2 class="text-1 fl">DANH SÁCH SẢN PHẨM</h2>
+		
+    </div>
+
+    <div class="table">
+        <div class="row bg-1">
+            <div class="cell cell-50 text-center text-fff">MÃ</div>
+            <div class="cell cell-100 text-center text-fff">GIÁ</div>
+            <div class="cell cell-100 text-fff">HÌNH</div>
+            <div class="cell cell-100p text-fff">TÊN</div>
+            <div class="cell cell-100 text-center text-fff">EDIT</div>
+        </div>
+
+        <ul class="list-tour" style="overflow:auto; height:300px;">
+            
+        </ul>
+
+    </div> 
+	
+<!-- </form> -->
+            </div>
+    </div>
+</div>
+
+    <script  src="js/index.js"></script>
+
+</body>
+</html>
